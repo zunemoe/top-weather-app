@@ -1,4 +1,4 @@
-import CurrentWeatherCard from '../app/components/current-weather-card';
+import CurrentWeatherCard from '../components/weather-info';
 
 export function renderHomePage() {
     const container = document.createElement('div');

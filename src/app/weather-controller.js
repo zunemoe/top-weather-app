@@ -1,0 +1,5 @@
+
+
+export function renderCurrentWeatherCard(data) {
+
+}

@@ -1,4 +1,4 @@
-export default function CurrentWeatherCard() {
+export default function currentWeatherCard(data) {
     const card = document.createElement('div');
     card.classList.add('current-weather-card');
 

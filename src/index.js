@@ -5,7 +5,7 @@ import './styles/variables.css';
 import './styles/responsive.css';
 
 // Import JavaScript modules
-import { renderHomePage } from './ui/home-page';
+import { renderHomePage } from './view/pages/home-page';
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
