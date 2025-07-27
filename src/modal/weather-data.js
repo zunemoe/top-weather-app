@@ -1,40 +1,109 @@
+// Sample json response from the API
+// {
+//     "latitude" : 38.9697,
+//     "longitude" : -77.385,
+//     "resolvedAddress" : "Reston, VA, United States",
+//     "address" : " Reston,VA",
+//     "timezone" : "America/New_York",
+//     "tzoffset" : -5,
+//     "description":"Cooling down with a chance of rain on Friday.",
+//     "days" : [{ //array of days of weather data objects
+//         "datetime":"2020-11-12",
+//         "datetimeEpoch":1605157200,
+//         "temp" : 59.6,
+//         "feelslike" : 59.6,
+//         ...
+//         "stations" : {
+//         },
+//         "source" : "obs",
+//         "hours" : [{  //array of hours of weather data objects
+//             "datetime" : "01:00:00",
+//             ...
+//         },...]
+//     },...],
+//     "alerts" : [{
+//             "event" : "Flash Flood Watch",
+//             "description" : "...",
+//             ...
+//         }
+//     ],
+//     "currentConditions" : {
+//         "datetime" : "2020-11-11T22:48:35",
+//         "datetimeEpoch" : 160515291500,
+//         "temp" : 67.9,
+//         ...
+//     }
+// }
+
 export function weatherData(data) {
     return {
-        location: data.location || 'Unknown Location',
-        temperature: data.temperature || 'N/A',
-        condition: data.condition || 'Unknown Condition',
-        temperatureRange: data.temperatureRange || 'N/A',
-        icon: data.icon || 'sunny',
-        humidity: data.humidity || 'N/A',
-        windSpeed: data.windSpeed || 'N/A',
-        pressure: data.pressure || 'N/A',
-        visibility: data.visibility || 'N/A',
-        sunrise: data.sunrise || 'N/A',
-        sunset: data.sunset || 'N/A',
-        forecast: data.forecast || [],
-        uiIndex: data.uiIndex || 0,
-        feelsLike: data.feelsLike || 'N/A',
-        lastUpdated: data.lastUpdated || 'N/A'
+        current: currentWeatherData(data),
+        hourly: hourlyForecastData(data),
+        weekly: weeklyForecastData(data)
+    }
+
+    function currentWeatherData(data) {
+        const current = data.currentConditions;
+        const today = data.days[0];
+
+        return {
+            location: data.address,
+            temperature: Math.round(current.temp),
+            condition: current.conditions,
+            tempLow: Math.round(today.tempmin),
+            tempHigh: Math.round(today.tempmax),
+            icon: current.icon,
+            humidity: Math.round(current.humidity),
+            windSpeed: current.windspeed,
+            windDirection: current.winddir,
+            windGust: current.windgust,
+            pressure: current.pressure,
+            visibility: current.visibility,
+            sunrise: current.sunrise,
+            sunset: current.sunset,
+            uvIndex: current.uvindex,
+            feelsLike: Math.round(current.feelslike),
+            precipitation: Math.round(current.precipprob),
+            description: today.description
+        }
+    }
+
+    function hourlyForecastData(data) {        
+        // Get the next 24 hours of data
+        const currentHour = new Date().getHours();
+        const todayHours = data.days[0].hours || [];
+        const tomorrowHours = data.days[1] ? data.days[1].hours : [];
+
+        const remainingTodayHours = todayHours.slice(currentHour);
+        const hoursFromTomorrow = 24 - remainingTodayHours.length;
+        const remainingTomorrowHours = tomorrowHours.slice(0, hoursFromTomorrow);
+
+        const hourlyData = [...remainingTodayHours, ...remainingTomorrowHours];
+
+        return hourlyData.map(hour => ({
+            time: hour.datetime?.slice(0, 5), // Format time as HH:MM
+            temperature: Math.round(hour.temp),
+            condition: hour.conditions,
+            icon: hour.icon,
+            precipitation: Math.round(hour.precipprob)
+        }));
+    }
+
+    function weeklyForecastData(data) {        
+        const weeklyData = data.days || [];
+
+        return weeklyData.slice(0, 10).map((day, index) => ({
+            date: index === 0 ? 'Today' :
+            index === 1 ? 'Tomorrow' :
+            new Date(day.datetime).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),            
+            tempLow: Math.round(day.tempmin),
+            tempHigh: Math.round(day.tempmax),
+            condition: day.conditions,
+            icon: day.icon,
+            humidity: day.humidity,
+            precipitation: Math.round(day.precipprob),
+            description: day.description
+        }));
     }
 }
 
-export function hourlyForecastData(data) {
-    const hourlyData = data;
-    return hourlyData.map(hour => ({
-        time: hour.time || 'N/A',
-        temperature: hour.temperature || 'N/A',
-        condition: hour.condition || 'Unknown Condition',
-        icon: hour.icon || 'sunny'
-    }));
-}
-
-export function weeklyForecastData(data) {
-    const weeklyData = data;
-    return weeklyData.map(day => ({
-        date: day.date || 'N/A',
-        high: day.high || 'N/A',
-        low: day.low || 'N/A',
-        condition: day.condition || 'Unknown Condition',
-        icon: day.icon || 'sunny'
-    }));
-}
