@@ -1,0 +1,49 @@
+.hourly-forecast-container {
+    background-color: var(--color-gray-dark);
+    padding: var(--spacing-base) var(--spacing-s);
+    border-radius: var(--spacing-base);
+    font-family: var(--font-family-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+
+.hourly-forecast-card {
+    display: flex;
+    max-width: 100%;
+    overflow-x: auto;
+    gap: var(--spacing-s);
+}
+
+.hour-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+.hour-block div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 44px;
+    text-align: center;
+}
+
+.hour-block div .hour-icon {
+    object-fit: contain;
+}
+
+.hour-block div span {
+    color: var(--color-off-white);
+    font-size: var(--font-size-xs);
+    line-height: 0.7;
+}
+
+.hour-block .time {
+    font-size: var(--font-size-base);
+}
+
+.hour-block .temperature {
+    font-size: var(--font-size-l);
+}

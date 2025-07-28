@@ -23,8 +23,8 @@ const BASE_URL = 'https://weather.visualcrossing.com/VisualCrossingWebServices/r
 
 export async function fetchWeatherData(location, unit = 'metric', start_date = '', end_date = '') {
     // Date format: yyyy-MM-dd
-    let startDate = start_date? "/" + new Date(start_date).toISOString().split('T')[0] : '';
-    let endDate = end_date? "/" + new Date(end_date).toISOString().split('T')[0] : '';
+    let startDate = start_date? "/" + formatDate(start_date) : '';
+    let endDate = end_date? "/" + formatDate(end_date) : '';
     try {
         const response = await fetch(`${BASE_URL}${location}${startDate}${endDate}?key=${API_KEY}&unitGroup=${unit}&include=hours,current`, {
             mode: 'cors'
@@ -40,3 +40,12 @@ export async function fetchWeatherData(location, unit = 'metric', start_date = '
 // Multiple locations in the same request
 // https://www.visualcrossing.com/resources/documentation/weather-api/using-the-timeline-weather-api-with-multiple-locations-in-the-same-request/
 
+export async function fetchWeatherDataForLocations(locations, unit = 'metric', start_date = '', end_date = '') {
+    // Date format: yyyy-MM-dd
+    let startDate = start_date? "/" + formatDate(start_date) : '';
+    let endDate = end_date? "/" + formatDate(end_date) : '';
+}
+
+function formatDate(dateInput) {
+    return new Date(dateInput).toISOString().split('T')[0];
+}

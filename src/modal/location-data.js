@@ -13,11 +13,11 @@
 
 export function locationData(data) {
     return {
-        name: data.name || 'Unknown Location',
-        latitite: data.latitude || 0,
-        longitude: data.longitude || 0,
-        country: data.country || 'Unknown Country',
-        region: data.region || 'Unknown Region',
-        isCapital: data.is_capital || false,
+        name: data.name,
+        latitite: data.latitude,
+        longitude: data.longitude,
+        country: data.country ,
+        region: data.region,
+        isCapital: data.is_capital
     }
 }

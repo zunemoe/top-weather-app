@@ -1,7 +1,7 @@
 export default function header() {
     const header = document.createElement('header');
 
-    const currentLocation = document.createElement('div');
+    const currentLocation = document.createElement('button');
     currentLocation.classList.add('reload-location');
     currentLocation.innerHTML = `
         <span class="material-symbols-outlined">location_on</span>

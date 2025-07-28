@@ -2,14 +2,22 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: var(--spacing-xxxl);
     width: 100%;
 }
 
 .reload-location {
-    display: flex;
+    width: 46px;
+    height: 46px;
     margin-left: 20px;
     margin-right: auto;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .location-list-btn {
@@ -21,4 +29,7 @@ header {
     margin-left: auto;
     margin-right: 20px;
     color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

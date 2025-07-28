@@ -4,5 +4,6 @@
 @import './layout.css';
 
 @import './components/header.css';
+@import './components/home-page.css';
 
 @import './responsive.css';

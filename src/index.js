@@ -2,7 +2,7 @@
 import './styles/base.css';
 
 // Import JavaScript modules
-import { initializeWeatherApp } from './app/app';
+import { initializeWeatherApp } from './app/App';
 
 document.addEventListener('DOMContentLoaded', () => {  
     initializeWeatherApp();  

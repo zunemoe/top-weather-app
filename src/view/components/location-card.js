@@ -1,4 +1,4 @@
-export default function locationCard(location, weather = null) {
+export default function locationCard(location, weather = {}) {
     const card = document.createElement('div'); 
     card.classList.add('location-card');
     // Todo: Change metric dynamically based on user preference

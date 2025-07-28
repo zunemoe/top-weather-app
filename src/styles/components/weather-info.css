@@ -1,0 +1,72 @@
+.weather-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
+
+.temp-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family-primary);
+    color: var(--color-white);
+    margin-bottom: var(--spacing-xxl);
+}
+
+.temp-info .location {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-s);
+}
+
+.temp-info .weather-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: var(--spacing-xs);
+}
+
+.temp-info .condition {
+    font-size: var(--font-size-l);
+}
+
+.temp-info .temperature {
+    font-size: var(--font-size-xxxl);
+}
+
+.temp-info .temperature-range {
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-s);
+    color: var(--color-off-white);
+}
+
+.additional-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-l);
+}
+
+.additional-info div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.additional-info div span {
+    margin-bottom: var(--spacing-xxs);
+}
+
+.additional-info div p {
+    font-size: var(--font-size-xs);
+}
+
+.temp-description {
+    font-size: var(--font-size-s);
+    color: var(--color-off-white);
+    text-align: left;
+    margin-bottom: var(--spacing-l);
+}

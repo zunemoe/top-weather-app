@@ -95,7 +95,7 @@ export function weatherData(data) {
         return weeklyData.slice(0, 10).map((day, index) => ({
             date: index === 0 ? 'Today' :
             index === 1 ? 'Tomorrow' :
-            new Date(day.datetime).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),            
+            new Date(day.datetime).toLocaleDateString('en-US', { weekday: 'short' }),            
             tempLow: Math.round(day.tempmin),
             tempHigh: Math.round(day.tempmax),
             condition: day.conditions,
