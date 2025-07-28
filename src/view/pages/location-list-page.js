@@ -2,20 +2,26 @@ import LocationCard from '../components/location-card';
 
 export default function locationListPage(locations = [], weatherData = {}) {
     const container = document.createElement('div');
-    container.classList.add('location-list-page');
+    container.classList.add('location-list-page');    
 
     container.innerHTML = `
         <input type="text" placeholder="Search for a city or location..." class="location-search">
         <div class="location-list">
-            <-- Placeholder for dynamically generated location cards -->
+            
         </div>
     `;
-    console.log('Rendering location page with conatiner:', container);
-    // const locationList = container.querySelector('.location-list');
-    // locations.forEach(location => {
-    //     const locationCard = LocationCard(location, weatherData[location]);
-    //     locationList.appendChild(locationCard);
-    // });
+    
+    const locationList = container.querySelector('.location-list');
+    locations.forEach(location => {
+        const locationWeatherData = weatherData[location];
+
+        if (locationWeatherData) {
+            const locationCard = LocationCard(location, locationWeatherData);
+            locationList.appendChild(locationCard);
+        } else {
+            console.warn(`No weather data found for location: ${location}`);
+        }
+    });
 
     const searchInput = container.querySelector('.location-search');
     addSearchLocationEventListener(searchInput)

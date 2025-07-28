@@ -14,7 +14,7 @@ export async function fetchLocationData(location) {
                 'Content-Type': 'application/json'
             }
         });
-        const data = await response.json();
+        const data = await response.json();        
         return data.length > 0 ? data[0] : null; // Return the first result or null if not found
     } catch (error) {
         console.error('Error fetching location data:', error);

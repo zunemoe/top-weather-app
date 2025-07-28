@@ -3,10 +3,10 @@ import { loadWeatherForLocation } from './weather-controller';
 import { loadWeatherForLocations } from './location-controller';
 
 const dummyLocations = [
-    'Auckland, NZ',
-    'Sydney, AU',
-    'London, UK',
-    'New York, US',
+    'Auckland',
+    'Sydney',
+    'London',
+    'New York',
 ];
 
 export function initializeWeatherApp() {    
