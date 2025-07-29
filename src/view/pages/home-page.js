@@ -3,10 +3,15 @@ import HourlyForecast from '../components/hourly-forecast';
 import WeeklyForecast from '../components/weekly-forecast';
 import MeasurementPanel from '../components/measurement-panel';
 
-export default function homePage(data = {}) {
+export default function homePage(data = {}, temporary = false) {
     const container = document.createElement('div');
     container.classList.add('home-page');
-    
+    container.innerHTML = '';
+
+    if (temporary) {
+        container.appendChild(WeatherInfo(data.current));
+        return container;
+    }
     container.appendChild(WeatherInfo(data.current));
     container.appendChild(HourlyForecast(data.hourly));
     // TODO: Uncomment the line below when WeeklyForecast and MeasurementPanel are implemented

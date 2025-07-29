@@ -9,7 +9,7 @@
     --color-white: hsl(0, 0%, 100%, 1.0);
     --color-off-white: hsl(0, 0%, 100%, 0.8);
     --color-gray-dark: hsl(0, 0%, 32%, 0.6);
-    --color-gray-light: hsl(0, 3%, 66%, 0.7);
+    --color-gray-light: hsl(0, 3%, 66%, 0.2);
     --font-family-primary: 'Inter', sans-serif;
     --font-family-secondary: 'Raleway', sans-serif;
     --font-size-base: 16px;

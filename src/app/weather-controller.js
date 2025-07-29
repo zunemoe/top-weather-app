@@ -10843,8 +10843,11 @@ const dummyData = {
     }
 };
 
-export async function loadWeatherForLocation(location) {
+export async function loadWeatherForLocation(location, existingWeatherData = null) {
     try {
+        if (existingWeatherData) {
+            renderHomePage(existingWeatherData, true);
+        }
         // Fetch weather data
         // const apiData = await fetchWeatherData(location, 'metric');
         // console.log('API Data:', apiData); // Debugging line to check API data
@@ -10854,16 +10857,17 @@ export async function loadWeatherForLocation(location) {
         console.log('API Formatted Data:', weatherDataObject);
 
         // Render the home page with the fetched weather data
-        renderHomePage(weatherDataObject);        
+        renderHomePage(weatherDataObject, false);        
     } catch (error) {
         console.error('Error loading weather for location:', error);
         throw error;
     }
 
-    function renderHomePage(weatherData) {
-        const homePageElement = HomePage(weatherData);
+    function renderHomePage(weatherData, temporary = false) {
+        const homePageElement = HomePage(weatherData, temporary);
         const app = document.getElementById('app');
         
+        app.innerHTML = ''; // Clear previous content
         app.appendChild(homePageElement);
     }
 }

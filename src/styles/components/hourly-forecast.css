@@ -4,6 +4,7 @@
     border-radius: var(--spacing-base);
     font-family: var(--font-family-secondary);
     margin-bottom: var(--spacing-xl);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .hourly-forecast-card {

@@ -6,7 +6,7 @@ const dummyLocations = [
     'Auckland',
     'Sydney',
     'London',
-    'New York',
+    'New York'
 ];
 
 export function initializeWeatherApp() {    

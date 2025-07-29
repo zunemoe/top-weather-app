@@ -1,40 +1,3 @@
-// Sample json response from the API
-// {
-//     "latitude" : 38.9697,
-//     "longitude" : -77.385,
-//     "resolvedAddress" : "Reston, VA, United States",
-//     "address" : " Reston,VA",
-//     "timezone" : "America/New_York",
-//     "tzoffset" : -5,
-//     "description":"Cooling down with a chance of rain on Friday.",
-//     "days" : [{ //array of days of weather data objects
-//         "datetime":"2020-11-12",
-//         "datetimeEpoch":1605157200,
-//         "temp" : 59.6,
-//         "feelslike" : 59.6,
-//         ...
-//         "stations" : {
-//         },
-//         "source" : "obs",
-//         "hours" : [{  //array of hours of weather data objects
-//             "datetime" : "01:00:00",
-//             ...
-//         },...]
-//     },...],
-//     "alerts" : [{
-//             "event" : "Flash Flood Watch",
-//             "description" : "...",
-//             ...
-//         }
-//     ],
-//     "currentConditions" : {
-//         "datetime" : "2020-11-11T22:48:35",
-//         "datetimeEpoch" : 160515291500,
-//         "temp" : 67.9,
-//         ...
-//     }
-// }
-
 export function weatherData(data) {
     return {
         current: currentWeatherData(data),
@@ -46,24 +9,38 @@ export function weatherData(data) {
         const current = data.currentConditions;
         const today = data.days[0];
 
+        let currentData;
+
+        if (current) {
+            currentData = current;
+        } else {
+            const currentour = new Date().getHours();
+            const todayHours = today.hours || [];
+            const currentHourData = todayHours[currentour];
+
+            if (currentHourData) currentData = currentHourData;
+            else currentData = todayHours[0] || today;
+        }
+
+        // if there is no current conditions, get the current time data from today's data
         return {
             location: data.address,
-            temperature: Math.round(current.temp),
-            condition: current.conditions,
+            temperature: Math.round(currentData.temp),
+            condition: currentData.conditions,
             tempLow: Math.round(today.tempmin),
             tempHigh: Math.round(today.tempmax),
-            icon: current.icon,
-            humidity: Math.round(current.humidity),
-            windSpeed: current.windspeed,
-            windDirection: current.winddir,
-            windGust: current.windgust,
-            pressure: current.pressure,
-            visibility: current.visibility,
-            sunrise: current.sunrise,
-            sunset: current.sunset,
-            uvIndex: current.uvindex,
-            feelsLike: Math.round(current.feelslike),
-            precipitation: Math.round(current.precipprob),
+            icon: currentData.icon,
+            humidity: Math.round(currentData.humidity),
+            windSpeed: currentData.windspeed,
+            windDirection: currentData.winddir,
+            windGust: currentData.windgust,
+            pressure: currentData.pressure,
+            visibility: currentData.visibility,
+            sunrise: currentData.sunrise || today.sunrise,
+            sunset: currentData.sunset || today.sunset,
+            uvIndex: currentData.uvindex,
+            feelsLike: Math.round(currentData.feelslike),
+            precipitation: Math.round(currentData.precipprob || 0),
             description: today.description
         }
     }

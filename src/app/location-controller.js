@@ -2,6 +2,7 @@ import LocationListPage from '../view/pages/location-list-page';
 import { locationData } from '../modal/location-data';
 import { fetchLocationData } from '../services/location-api';
 import { fetchWeatherDataForLocations } from '../services/weather-api';
+import { weatherData } from '../modal/weather-data';
 
 const dummyMultiLocationsWeather = [
     {
@@ -587,24 +588,17 @@ const dummyMultiLocationsWeather = [
 export async function loadWeatherForLocations(locations = []) {
     try {
         // Fetch weather data for each location
-        // const apiData = await fetchWeatherDataForLocations(locations);
-        // console.log('Multi-location Weather API Data:', apiData.locations);
+        // const apiData = await fetchWeatherDataForLocations(locations);        
         
         // Transform API data
         // const locationsWeatherData = apiData.locations.reduce((acc, location) => {
         const locationsWeatherData = dummyMultiLocationsWeather.reduce((acc, location) => {
-            const currentWeather = {
-                location: location.address,
-                temperature: Math.round(location.currentConditions.temp),
-                tempHigh: Math.round(location.days[0].tempmax),
-                tempLow: Math.round(location.days[0].tempmin),
-                condition: location.currentConditions.conditions,
-                icon: location.currentConditions.icon,
-                humidity: Math.round(location.currentConditions.humidity),
-                windSpeed: location.currentConditions.windspeed                
-            };
-            acc[location.address] = currentWeather;
-            return acc;
+            const transformedWeatherData = weatherData(location);
+            const currentWeather = transformedWeatherData.current;
+
+            if (currentWeather) acc[location.address] = currentWeather;
+            
+            return acc;            
         }, {});
 
         console.log('Transformed Weather Data:', locationsWeatherData);
@@ -614,14 +608,6 @@ export async function loadWeatherForLocations(locations = []) {
     } catch (error) {
         console.error('Error loading weather for locations:', error);
         throw error;
-    }
-
-   function renderLocationListPage(locations = [], weatherData = {}) {
-        const locationListPageElement = LocationListPage(locations, weatherData);
-        const app = document.getElementById('app');
-
-        app.innerHTML = '';
-        app.appendChild(locationListPageElement);
     } 
 }
 
@@ -630,13 +616,97 @@ export async function searchLocation(keyword) {
         // Fetch location data based on the keyword
         const apiData = await fetchLocationData(keyword);
         console.log('Location API Data:', apiData);
-
+        
         // Transform API data
-        // const locationDataObject = {
-
-        // }
+        const searchResults = apiData.map(location => ({
+            name: location.name,
+            region: location.region || location.state,
+            country: location.country
+        }));
+        return searchResults;
     } catch (error) {
         console.error('Error searching for location:', error);
         throw error;
     }
+}
+
+export async function addLocationToList(location) {
+    try {
+        if (currentLocations.includes(location.name)) {
+            console.warn(`Location "${location.name}" is already in the list.`);
+            return;
+        }
+
+        // Fetch weather data for the location
+        const apiData = await fetchLocationData(location.name);
+        const transformedWeatherData = weatherData(apiData);
+        const currentWeather = transformedWeatherData.current;
+
+        if (!currentWeather) {
+            console.error(`No current weather data found for location: ${location.name}`);
+            return;
+        }
+
+        currentLocations.unshift(location.name);
+        currentWeatherData[location.name] = currentWeather;
+
+        renderLocationListPage(currentLocations, currentWeatherData);
+
+        return {
+            success: true,
+            location: location.name,
+            weather: currentWeather
+        };
+    } catch (error) {
+        console.error('Error adding location to list:', error);
+        throw error;
+    }
+}
+
+export function removeLocationFromList(location) {
+    try {
+        currentLocations = currentLocations.filter(loc => loc !== location);
+        delete currentWeatherData[location];
+
+        renderLocationListPage(currentLocations, currentWeatherData);
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error removing location from list:', error);
+        throw error;
+    }
+}
+
+export async function loadWeatherForSelectedLocation(location) {
+    try {
+        const existingWeatherData = currentWeatherData[location];
+        if (!existingWeatherData) {
+            console.warn(`No existing weather data found for location: ${location}`);
+            return;
+        }
+
+        const { loadWeatherForLocation } = await import('./weather-controller');
+        await loadWeatherForLocation(location, existingWeatherData);
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error loading weather for selected location:', error);
+        throw error;
+    }
+}
+
+function renderLocationListPage(locations = [], weatherData = {}) {
+    const locationListPageElement = LocationListPage(locations, weatherData);
+    const app = document.getElementById('app');
+
+    app.innerHTML = '';
+    app.appendChild(locationListPageElement);
+}
+
+export function getCurrentLocations() {
+    return currentLocations;
+}
+
+export function getCurrentWeatherData() {
+    return currentWeatherData;
 }
