@@ -614,16 +614,10 @@ export async function loadWeatherForLocations(locations = []) {
 export async function searchLocation(keyword) {
     try {
         // Fetch location data based on the keyword
-        const apiData = await fetchLocationData(keyword);
-        console.log('Location API Data:', apiData);
-        
-        // Transform API data
-        const searchResults = apiData.map(location => ({
-            name: location.name,
-            region: location.region || location.state,
-            country: location.country
-        }));
-        return searchResults;
+        const apiData = await fetchLocationData(keyword);            
+        // Transform API data - apiData is an array, so transform each location
+        const locations = apiData.map(data => locationData(data));
+        return locations;
     } catch (error) {
         console.error('Error searching for location:', error);
         throw error;

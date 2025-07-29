@@ -14,10 +14,7 @@
 export function locationData(data) {
     return {
         name: data.name,
-        latitite: data.latitude,
-        longitude: data.longitude,
         country: data.country ,
-        region: data.region,
-        isCapital: data.is_capital
+        region: data.region
     }
 }
