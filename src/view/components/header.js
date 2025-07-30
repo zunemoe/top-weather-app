@@ -16,22 +16,6 @@ export default function header(pageType = 'weather', options = {}) {
     }
 
     return header;
-
-    const currentLocation = document.createElement('button');
-    currentLocation.classList.add('reload-location');
-    currentLocation.innerHTML = `
-        <span class="material-symbols-outlined">refresh</span>
-    `;
-
-    const locationListBtn = document.createElement('button');
-    locationListBtn.classList.add('location-list-btn');
-    locationListBtn.innerHTML = `
-        <span class="material-symbols-outlined">format_list_bulleted</span>
-        `;
-
-    header.appendChild(currentLocation);
-    header.appendChild(locationListBtn);
-    return header;
 }
 
 export function createReloadButton(onClick) {

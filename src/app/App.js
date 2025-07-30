@@ -6,7 +6,6 @@ const dummyLocations = [
     'Auckland',
     'Sydney',
     'London',
-    'New York'
 ];
 
 export function initializeWeatherApp() {    
@@ -14,22 +13,45 @@ export function initializeWeatherApp() {
     loadWeatherForLocation(dummyLocations[0]); // Load weather for the default location
 }
 
+export function hideHomeAndShowLocationList() {
+    console.log('Hiding home page and showing location list');
+    const homePage = document.querySelector('.home-page');
+    const locationListPage = document.querySelector('.location-list-page');
+
+    if (homePage) homePage.classList.add('hidden');
+    if (locationListPage) locationListPage.classList.remove('hidden');
+}
+
+export function showHomeAndHideLocationList() {
+    console.log('Showing home page and hiding location list');
+    const homePage = document.querySelector('.home-page');
+    const locationListPage = document.querySelector('.location-list-page');
+    if (homePage) homePage.classList.remove('hidden');
+    if (locationListPage) locationListPage.classList.add('hidden');
+}
+
 export function renderHeader() {
     const headerElement = document.querySelector('header');
-    if (headerElement.classList.contains('weather-header')) {
-        renderLocationListHeader();
-    } else if (headerElement.classList.contains('location-list-header')) {
+    if (!headerElement) {
         renderWeatherHeader();
     } else {
-        renderWeatherHeader();
-    }   
+        if (headerElement.classList.contains('weather-header')) {
+            renderLocationListHeader();
+        } else if (headerElement.classList.contains('location-list-header')) {
+            renderWeatherHeader();
+        }
+    }
 }
 
 function renderWeatherHeader() {
     const headerElement = Header('weather', {
         onReload: () => loadWeatherForLocation(dummyLocations[0]),
-        onLocationList: () => loadWeatherForLocations(dummyLocations)
-    });
+        onLocationList: async () => {
+            await loadWeatherForLocations(dummyLocations);   
+            console.log('Show location list');
+            hideHomeAndShowLocationList();  
+            renderHeader();       
+    }});
 
     const currentHeaderElement = document.querySelector('header');
     if (currentHeaderElement) {
@@ -42,7 +64,10 @@ function renderWeatherHeader() {
 function renderLocationListHeader() {
     const headerElement = Header('locations', {
         onRefresh: () => loadWeatherForLocations(dummyLocations),
-        onClose: () => console.log('Close location list')
+        onClose: () => {
+            showHomeAndHideLocationList();
+            renderHeader();
+        }
     });
 
     const currentHeaderElement = document.querySelector('header');
@@ -52,32 +77,3 @@ function renderLocationListHeader() {
         document.body.insertBefore(headerElement, document.body.firstChild);
     }
 }
-
-// function renderHeader() {
-//     const headerElement = Header();
-//     document.body.insertBefore(headerElement, document.body.firstChild);
-
-//     addHeaderEventListeners();
-
-//     function addHeaderEventListeners() {
-//         const reloadLocationBtn = headerElement.querySelector('.reload-location');
-//         const locationListBtn = headerElement.querySelector('.location-list-btn');
-
-//         if (reloadLocationBtn) {
-//             reloadLocationBtn.addEventListener('click', () => {
-//                 // Placeholder for future functionality
-//                 console.log('Reload location button clicked');
-//                 loadWeatherForLocation(dummyLocations[0]);
-//             });
-//         }
-
-//         if (locationListBtn) {
-//             locationListBtn.addEventListener('click', () => {
-//                 // Placeholder for future functionality
-//                 loadWeatherForLocations(dummyLocations);
-//                 console.log('Location list button clicked');
-//             });
-//         }
-//     }
-// }
-

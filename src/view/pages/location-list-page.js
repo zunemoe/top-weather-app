@@ -18,28 +18,8 @@ export default function locationListPage(locations = [], weatherData = {}) {
     
     populateLocationList(container, locations, weatherData);
     setupSearchInput(container);
-    return container;
-
-    // const locationList = container.querySelector('.location-list');
-    // locations.forEach(location => {
-    //     const locationWeatherData = weatherData[location];
-
-    //     if (locationWeatherData) {
-    //         const locationCard = LocationCard(location, locationWeatherData);
-
-    //         locationCard.addEventListener('click', () => {
-    //             handleLocationCardClick(location);
-    //         });
-
-    //         locationList.appendChild(locationCard);
-    //     } else {
-    //         console.warn(`No weather data found for location: ${location}`);
-    //     }
-    // });
-
-    // const searchInput = container.querySelector('.location-search');
-    // addSearchLocationEventListener(searchInput)
     
+    return container;
 }
 
 // Location List and Click Handler
@@ -96,6 +76,11 @@ async function handleLocationCardClick(location) {
 
         await loadWeatherForLocation(location, weatherData[location]);
         // await loadWeatherForSelectedLocation(location);
+        const { renderHeader } = await import('../../app/app');
+        renderHeader();
+
+        const { showHomeAndHideLocationList } = await import('../../app/app');
+        showHomeAndHideLocationList();
     } catch (error) {
         console.error('Error handling location card click:', error);
     }
@@ -129,6 +114,7 @@ function setupSearchInput(container) {
 
     searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
+            clearTimeout(searchTimeout);
             const keyword = e.target.value.trim();
             if (keyword) handleLocationSearch(keyword, container);
         }
@@ -138,13 +124,6 @@ function setupSearchInput(container) {
             cancelSearchBtn.classList.remove('active');
         }
     });
-
-    // // Hide overlay when clicking outside
-    // document.addEventListener('click', (e) => {
-    //     if (!container.contains(e.target)) {
-    //         hideSearchOverlay(container);
-    //     }
-    // });
 }
 
 async function handleLocationSearch(keyword, container) {    
@@ -202,46 +181,6 @@ async function handleLocationSelection(location, container) {
     }
 }
 
-// function clearSearchResults(container) {
-//     const searchResultContainer = container.querySelector('.search-result-container');
-//     searchResultContainer.innerHTML = ''; // Clear search results
-// }
-
-// async function handleLocationSelection(location, container) {
-//     try {
-//         const { addLocationToList } = await import('../../app/location-controller');
-        
-//         // Hide the search overlay and clear input
-//         hideSearchOverlay(container);
-//         clearSearchInput(container);
-        
-//         // Show adding state
-//         showLocationAddingFeedback('Adding location...');
-        
-//         // Add location through controller
-//         await addLocationToList(location);
-        
-//         // Show success feedback
-//         showSuccessFeedback(`${location.name} added successfully!`);
-        
-//     } catch (error) {
-//         console.error('Error adding location:', error);
-//         showErrorFeedback(error.message || 'Failed to add location');
-//     }
-// }
-
-// async function handleLocationRemove(locationName) {
-//     try {
-//         const { removeLocationFromList } = await import('../../app/location-controller');
-//         await removeLocationFromList(locationName);
-//         showSuccessFeedback(`${locationName} removed successfully!`);
-//     } catch (error) {
-//         console.error('Error removing location:', error);
-//         showErrorFeedback('Failed to remove location');
-//     }
-// }
-
-
 function toggleSearchAndLocationList(container) {
     const searchOverlay = container.querySelector('.search-result-container');
     const locationList = container.querySelector('.location-list');
@@ -264,13 +203,3 @@ function clearSearchResults(container) {
     const searchResultContainer = container.querySelector('.search-result-container');
     searchResultContainer.innerHTML = ''; // Clear search results
 }
-
-// function hideSearchOverlay(container) {
-//     const searchOverlay = container.querySelector('.search-result-container');
-//     searchOverlay.classList.remove('active');
-// }
-
-// function clearSearchInput(container) {
-//     const searchInput = container.querySelector('.location-search');
-//     searchInput.value = '';
-// }

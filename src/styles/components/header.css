@@ -33,3 +33,17 @@ header {
     align-items: center;
     justify-content: center;
 }
+
+.close-location-list-btn {
+    width: 46px;
+    height: 46px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 20px;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

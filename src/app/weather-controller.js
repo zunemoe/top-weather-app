@@ -10849,11 +10849,11 @@ export async function loadWeatherForLocation(location, existingWeatherData = nul
             renderHomePage(existingWeatherData, true);
         }
         // Fetch weather data
-        // const apiData = await fetchWeatherData(location, 'metric');
-        // console.log('API Data:', apiData); // Debugging line to check API data
+        const apiData = await fetchWeatherData(location, 'metric');
+        console.log('API Data:', apiData);
         
         // Transform API data        
-        const weatherDataObject = weatherData(dummyData);
+        const weatherDataObject = weatherData(apiData);
         console.log('API Formatted Data:', weatherDataObject);
 
         // Render the home page with the fetched weather data
@@ -10867,8 +10867,9 @@ export async function loadWeatherForLocation(location, existingWeatherData = nul
         const homePageElement = HomePage(weatherData, temporary);
         const app = document.getElementById('app');
         
-        app.innerHTML = ''; // Clear previous content
-        app.appendChild(homePageElement);
+        const existingHomePage = document.querySelector('.home-page');
+        if (existingHomePage) existingHomePage.replaceWith(homePageElement);
+        else app.appendChild(homePageElement);
     }
 }
 

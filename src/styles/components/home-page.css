@@ -1,3 +1,11 @@
 @import './weather-info.css';
 @import './hourly-forecast.css';
 @import './weekly-forecast.css';
+
+.home-page {
+    display: block;
+}
+
+.home-page.hidden {
+    display: none;
+}

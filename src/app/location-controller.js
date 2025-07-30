@@ -592,11 +592,11 @@ export async function loadWeatherForLocations(locations = []) {
     try {
         currentLocations = [...locations];
         // Fetch weather data for each location
-        // const apiData = await fetchWeatherDataForLocations(locations);        
+        const apiData = await fetchWeatherDataForLocations(locations);        
         
         // Transform API data
-        // const locationsWeatherData = apiData.locations.reduce((acc, location) => {
-        const locationsWeatherData = dummyMultiLocationsWeather.reduce((acc, location) => {
+        const locationsWeatherData = apiData.locations.reduce((acc, location) => {
+        // const locationsWeatherData = dummyMultiLocationsWeather.reduce((acc, location) => {
             const transformedWeatherData = weatherData(location);
             const currentWeather = transformedWeatherData.current;
 
@@ -609,6 +609,10 @@ export async function loadWeatherForLocations(locations = []) {
 
         // Render the location list page with the fetched data
         renderLocationListPage(locations, locationsWeatherData);
+
+        // // Update the header to show the location list        
+        // const { renderHeader } = await import('./app');
+        // renderHeader();
     } catch (error) {
         console.error('Error loading weather for locations:', error);
         throw error;
@@ -697,8 +701,12 @@ function renderLocationListPage(locations = [], weatherData = {}) {
     const locationListPageElement = LocationListPage(locations, weatherData);
     const app = document.getElementById('app');
 
-    app.innerHTML = '';
-    app.appendChild(locationListPageElement);
+    const existingLocationListPage = document.querySelector('.location-list-page');
+    if (existingLocationListPage) {
+        existingLocationListPage.replaceWith(locationListPageElement);
+    } else {
+        app.appendChild(locationListPageElement);
+    }
 }
 
 export function getCurrentLocations() {
