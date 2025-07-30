@@ -1,8 +1,11 @@
 import LocationListPage from '../view/pages/location-list-page';
 import { locationData } from '../modal/location-data';
 import { fetchLocationData } from '../services/location-api';
-import { fetchWeatherDataForLocations } from '../services/weather-api';
+import { fetchWeatherData, fetchWeatherDataForLocations } from '../services/weather-api';
 import { weatherData } from '../modal/weather-data';
+
+let currentLocations = [];
+let currentWeatherData = {};
 
 const dummyMultiLocationsWeather = [
     {
@@ -587,6 +590,7 @@ const dummyMultiLocationsWeather = [
 
 export async function loadWeatherForLocations(locations = []) {
     try {
+        currentLocations = [...locations];
         // Fetch weather data for each location
         // const apiData = await fetchWeatherDataForLocations(locations);        
         
@@ -600,7 +604,7 @@ export async function loadWeatherForLocations(locations = []) {
             
             return acc;            
         }, {});
-
+        currentWeatherData = locationsWeatherData;
         console.log('Transformed Weather Data:', locationsWeatherData);
 
         // Render the location list page with the fetched data
@@ -632,7 +636,7 @@ export async function addLocationToList(location) {
         }
 
         // Fetch weather data for the location
-        const apiData = await fetchLocationData(location.name);
+        const apiData = await fetchWeatherData(location.name);
         const transformedWeatherData = weatherData(apiData);
         const currentWeather = transformedWeatherData.current;
 

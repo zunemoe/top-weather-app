@@ -5,7 +5,7 @@
     background-color: var(--color-gray-light);
     border: none;
     border-radius: var(--spacing-base);
-    padding: var(--spacing-s) var(--spacing-base);
+    /* padding: var(--spacing-s) var(--spacing-base); */
     font-family: var(--font-family-primary);
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -16,6 +16,7 @@
 }
 
 .location-card-info {
+    padding: var(--spacing-s) var(--spacing-base);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -55,10 +56,19 @@
 }
 
 .location-card-weather .location-card-icon {
+    margin-right: var(--spacing-base);
+
     width: 50px;
     height: 50px;
 }
 
 .location-card-weather .location-card-temperature {
     font-size: var(--font-size-xxxl);
+    margin-right: var(--spacing-base);
+    margin-bottom: var(--spacing-s);
+}
+
+.location-card-weather .delete-location {
+    margin: var(--spacing-xs) var(--spacing-xs) 0 0;
+    color: var(--color-off-white);
 }

@@ -18,7 +18,8 @@ export default function locationCard(location, weather = {}) {
                 <p class="wind-value">${weather.windSpeed}km/h</p>
             </div>  
         </div>
-        <div class="location-card-weather">      
+        <div class="location-card-weather">
+            <span class="material-symbols-outlined delete-location">cancel</span>    
             <img src="${getWeatherIcon(weather.icon)}" alt="${weather.condition}" class="location-card-icon">            
             <h1 class="location-card-temperature">${weather.temperature}°</h1>            
         </div>
