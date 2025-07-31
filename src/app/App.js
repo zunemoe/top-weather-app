@@ -1,16 +1,12 @@
 import Header from '../view/components/header';
 import { loadWeatherForLocation } from './weather-controller';
 import { loadWeatherForLocations } from './location-controller';
-
-const dummyLocations = [
-    'Auckland',
-    'Sydney',
-    'London',
-];
+import { getCurrentLocation, getLocationList, saveCurrentLocation } from './storage';   
 
 export function initializeWeatherApp() {    
     renderHeader();
-    loadWeatherForLocation(dummyLocations[0]); // Load weather for the default location
+    loadWeatherForLocation(getCurrentLocation()); // Load weather for the default location
+    renderFooter();
 }
 
 export function hideHomeAndShowLocationList() {
@@ -45,9 +41,9 @@ export function renderHeader() {
 
 function renderWeatherHeader() {
     const headerElement = Header('weather', {
-        onReload: () => loadWeatherForLocation(dummyLocations[0]),
+        onReload: () => loadWeatherForLocation(getCurrentLocation()),
         onLocationList: async () => {
-            await loadWeatherForLocations(dummyLocations);   
+            await loadWeatherForLocations(getLocationList());   
             console.log('Show location list');
             hideHomeAndShowLocationList();  
             renderHeader();       
@@ -63,7 +59,7 @@ function renderWeatherHeader() {
 
 function renderLocationListHeader() {
     const headerElement = Header('locations', {
-        onRefresh: () => loadWeatherForLocations(dummyLocations),
+        onRefresh: () => loadWeatherForLocations(getLocationList()),
         onClose: () => {
             showHomeAndHideLocationList();
             renderHeader();
@@ -76,4 +72,9 @@ function renderLocationListHeader() {
     } else {
         document.body.insertBefore(headerElement, document.body.firstChild);
     }
+}
+
+function renderFooter() {
+    const footerElement = document.querySelector('footer');
+    footerElement.innerHTML = `&copy; ${new Date().getFullYear()} Weather App. Made with ❤️ by zunemoe in Auckland.`;
 }

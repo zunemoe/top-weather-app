@@ -19,3 +19,12 @@ body {
     width: 100%;
     padding: var(--spacing-xl);
 }
+
+footer {
+    text-align: center;
+    padding: var(--spacing-xs);
+    margin-top: auto;
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-light);
+    color: var(--color-off-white);
+}

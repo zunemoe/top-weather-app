@@ -1,7 +1,3 @@
-//https://api.api-ninjas.com/v1/city?name=your_city_name
-// Headers
-// X-Api-Key 'PJS+f0k9e3l4QBoyEtgCXA==1nJkDmvOevATQRqJ'
-
 const LOCATION_BASE_URL = 'https://api.api-ninjas.com/v1/city';
 const LOCATION_API_KEY = 'PJS+f0k9e3l4QBoyEtgCXA==1nJkDmvOevATQRqJ';
 

@@ -1,6 +1,7 @@
 import { weatherData } from '../modal/weather-data';
 import { fetchWeatherData } from '../services/weather-api';
 import HomePage from '../view/pages/home-page';
+import { saveCurrentLocation } from './storage';
 
 const dummyData = {
     "queryCost": 1,
@@ -10845,6 +10846,7 @@ const dummyData = {
 
 export async function loadWeatherForLocation(location, existingWeatherData = null) {
     try {
+        saveCurrentLocation(location);
         if (existingWeatherData) {
             renderHomePage(existingWeatherData, true);
         }

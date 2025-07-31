@@ -1,12 +1,3 @@
-//humidity
-// 0-30 -> Low -> <span class="material-symbols-outlined">humidity_low</span>
-// 31-70 -> Moderate -> <span class="material-symbols-outlined">humidity_mid</span>
-// 71-100 -> High -> <span class="material-symbols-outlined">humidity_high</span>
-//windSpeed
-//<span class="material-symbols-outlined">air</span>
-//feelsLike
-//<span class="material-symbols-outlined">thermostat</span>
-
 import { getWeatherIcon } from '../../app/utility';
 
 export default function weatherInfo(data) {

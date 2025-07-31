@@ -76,10 +76,10 @@ async function handleLocationCardClick(location) {
 
         await loadWeatherForLocation(location, weatherData[location]);
         // await loadWeatherForSelectedLocation(location);
-        const { renderHeader } = await import('../../app/app');
+        const { renderHeader } = await import('../../app/App');
         renderHeader();
 
-        const { showHomeAndHideLocationList } = await import('../../app/app');
+        const { showHomeAndHideLocationList } = await import('../../app/App');
         showHomeAndHideLocationList();
     } catch (error) {
         console.error('Error handling location card click:', error);

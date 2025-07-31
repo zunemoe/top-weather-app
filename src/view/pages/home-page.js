@@ -1,7 +1,6 @@
 import WeatherInfo from '../components/weather-info';
 import HourlyForecast from '../components/hourly-forecast';
 import WeeklyForecast from '../components/weekly-forecast';
-import MeasurementPanel from '../components/measurement-panel';
 
 export default function homePage(data = {}, temporary = false) {
     const container = document.createElement('div');

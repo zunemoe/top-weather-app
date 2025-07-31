@@ -3,6 +3,7 @@ import { locationData } from '../modal/location-data';
 import { fetchLocationData } from '../services/location-api';
 import { fetchWeatherData, fetchWeatherDataForLocations } from '../services/weather-api';
 import { weatherData } from '../modal/weather-data';
+import { saveLocationList, getLocationList } from './storage';
 
 let currentLocations = [];
 let currentWeatherData = {};
@@ -652,6 +653,10 @@ export async function addLocationToList(location) {
         currentLocations.unshift(location.name);
         currentWeatherData[location.name] = currentWeather;
 
+        // Save the updated location list to storage
+        saveLocationList(currentLocations);
+
+        // Render the updated location list page
         renderLocationListPage(currentLocations, currentWeatherData);
 
         return {
@@ -670,6 +675,10 @@ export function removeLocationFromList(location) {
         currentLocations = currentLocations.filter(loc => loc !== location);
         delete currentWeatherData[location];
 
+        // Save the updated location list to storage
+        saveLocationList(currentLocations);
+        
+        // Render the updated location list page
         renderLocationListPage(currentLocations, currentWeatherData);
 
         return { success: true };
@@ -707,12 +716,4 @@ function renderLocationListPage(locations = [], weatherData = {}) {
     } else {
         app.appendChild(locationListPageElement);
     }
-}
-
-export function getCurrentLocations() {
-    return currentLocations;
-}
-
-export function getCurrentWeatherData() {
-    return currentWeatherData;
 }

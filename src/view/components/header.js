@@ -9,9 +9,10 @@ export default function header(pageType = 'weather', options = {}) {
         header.appendChild(locationListBtn);
     } else if (pageType === 'locations') {
         const reloadBtn = createReloadButton(options.onRefresh);
-        const closeBtn = createCloseButton(options.onClose);
+        const closeBtn = createCloseButton(options.onClose);        
+        
         header.classList.add('location-list-header');
-        header.appendChild(reloadBtn);
+        header.appendChild(reloadBtn);        
         header.appendChild(closeBtn);
     }
 
